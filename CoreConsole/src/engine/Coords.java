@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.Objects;
+
 public class Coords {
     int x;
     int y;
@@ -15,6 +17,14 @@ public class Coords {
         this.x = x;
         this.y = y;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Coords)) return false;
+        Coords coords = (Coords) o;
+        return x == coords.x && y == coords.y;
     }
 
     public static Coords get(int x, int y) {

@@ -48,7 +48,7 @@ public class Tools {
 
     public static boolean isContained(int[][] grid, Coords[] row, Coords move){
         for (Coords coords : row) {
-            if (getGridValue(grid, coords) == getGridValue(grid, move)) {
+            if (coords.equals(move)) {
                 return true;
             }
         }

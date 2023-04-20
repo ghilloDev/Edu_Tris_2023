@@ -101,6 +101,9 @@ public class Game {
         pesi positivi (possibilità di vittoria) e
         negativi (possibilità di vittoria dell'altro giocatore)
         */
+
+
+         */
         if (Tools.getGridValue(grid, move) == 0) {
             Coords[][] validDir = new Coords[4][3];
             int i = 0;
