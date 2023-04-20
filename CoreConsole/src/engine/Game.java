@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.ArrayList;
+
 public class Game {
     public static final int PLAYER_1 = 1, PLAYER_2 = -1, NO_MOVE = 0;
     private int[][] grid = new int[3][3];
@@ -79,7 +81,7 @@ public class Game {
         return suggestMove(grid, player);
     }
 
-    public static Coords suggestMove(int[][] grid, int player) {
+        public static Coords suggestMove(int[][] grid, int player) {
         int[][] out = new int[3][3];
         int max = 0;
         Coords maxC = new Coords(0, 0);
@@ -101,27 +103,23 @@ public class Game {
         pesi positivi (possibilità di vittoria) e
         negativi (possibilità di vittoria dell'altro giocatore)
         */
-
-
-         */
         if (Tools.getGridValue(grid, move) == 0) {
-            Coords[][] validDir = new Coords[4][3];
-            int i = 0;
+            ArrayList<Coords[]> validDir = new ArrayList<>();
+            //Coords[][] validDir = new Coords[4][3];
+
             //for (Tools.Direction dir: Tools.getAvaibleDirections(move)){
 
             for (Tools.Direction dir : Tools.Direction.values()) {
                 if (Tools.isContained(grid, Tools.gridToCoords(grid, dir), move)) {
-                    validDir[i] = Tools.gridToCoords(grid, dir);
-                    i++;
+                    validDir.add(Tools.gridToCoords(grid, dir));
                 }
             }
             int max = 0;
-            for (int j = 0; j < validDir.length; j++) {
-                if (validDir[j] != null) {
-                    int weight = getWeightRow(Tools.Coords2Int(grid, validDir[j]), player);
+            for (int i = 0; i < validDir.size(); i++) {
+
+                    int weight = getWeightRow(Tools.Coords2Int(grid, validDir.get(i)), player);
                     if (weight > max)
                         max = weight;
-                }
             }
             return max;
         } else {

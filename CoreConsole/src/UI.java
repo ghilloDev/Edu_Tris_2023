@@ -24,6 +24,8 @@ public class UI {
                 }
             } else {
                 Coords suggested=Game.suggestMove(game.getGrid(), game.getPlayer());
+                int peso= Game.evaluateMove(game.getGrid(), suggested, game.getPlayer());
+                System.out.println("SUGGERISCO MOSSA [" + suggested +"] con peso= " + peso);
                 game.move(suggested);
             }
         }
