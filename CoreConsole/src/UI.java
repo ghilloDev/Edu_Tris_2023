@@ -14,7 +14,7 @@ public class UI {
             System.out.println("Muovi mossa giocatore " + Tools.gridToText(game.getPlayer()));
 
             int num = s.nextInt();
-            if(num<=9) {
+            if(num>0 && num<=9) {
                 Coords move = new Coords(num);
                 if (Tools.getGridValue(game.getGrid(), move) != 0)
                     System.out.println("Errore");
@@ -22,8 +22,10 @@ public class UI {
                     System.out.println(move);
                     game.move(move);
                 }
-            } else
-                Game.suggestMove(game.getGrid(), game.getPlayer());
+            } else {
+                Coords suggested=Game.suggestMove(game.getGrid(), game.getPlayer());
+                game.move(suggested);
+            }
         }
         if (game.hasWinner())
             Tools.printToConsole(game.getGrid(), "VINCITORE");
