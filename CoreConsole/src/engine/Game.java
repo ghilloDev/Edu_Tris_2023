@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Game {
     public static final int PLAYER_1 = 1, PLAYER_2 = -1, NO_MOVE = 0;
@@ -76,54 +77,66 @@ public class Game {
     }
 
 
-    public Coords suggestMove(int player) {
-        // foreach evaluate return max evaluation
-        return suggestMove(grid, player);
-    }
-
-        public static Coords suggestMove(int[][] grid, int player) {
+    public static Coords suggestMove(int[][] grid, int player, int depth) {
         int[][] out = new int[3][3];
         int max = 0;
         Coords maxC = new Coords(0, 0);
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                out[i][j] = evaluateMove(grid, Coords.get(i, j), player);
+                out[i][j] = evaluateMove(grid, Coords.get(i, j), player, depth);
                 if (out[i][j] > max) {
                     max = out[i][j];
                     maxC = Coords.get(i, j);
                 }
             }
         }
+        System.out.println(Arrays.deepToString(out));
         return maxC;
     }
 
 
-    public static int evaluateMove(int[][] grid, Coords move, int player) {
+    public static int evaluateMove(int[][] grid, Coords move, int player, int depth) {
         /* recursive analysis profonda depth,
         pesi positivi (possibilità di vittoria) e
         negativi (possibilità di vittoria dell'altro giocatore)
         */
+        int sum = 0;
+
+
         if (Tools.getGridValue(grid, move) == 0) {
             ArrayList<Coords[]> validDir = new ArrayList<>();
-            //Coords[][] validDir = new Coords[4][3];
-
-            //for (Tools.Direction dir: Tools.getAvaibleDirections(move)){
 
             for (Tools.Direction dir : Tools.Direction.values()) {
                 if (Tools.isContained(grid, Tools.gridToCoords(grid, dir), move)) {
                     validDir.add(Tools.gridToCoords(grid, dir));
                 }
             }
-            int max = 0;
+
             for (int i = 0; i < validDir.size(); i++) {
 
-                    int weight = getWeightRow(Tools.Coords2Int(grid, validDir.get(i)), player);
-                    if (weight > max)
-                        max = weight;
+                int weight = getWeightRow(Tools.Coords2Int(grid, validDir.get(i)), player);
+                //if (weight > max)
+                    sum += weight;
             }
-            return max;
-        } else {
-            return -10000;
+        }
+        else return -10000;
+
+        if (depth == 0)
+            return sum;
+        else {
+            int[][] out = new int[3][3];
+            int m = -10000;
+            depth--;
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[i].length; j++) {
+                    out[i][j] = evaluateMove(grid, Coords.get(i, j), player, depth);
+                    if (out[i][j] > m) {
+                        m = out[i][j];
+                    }
+                }
+            }
+            sum += m;
+            return sum;
         }
     }
 

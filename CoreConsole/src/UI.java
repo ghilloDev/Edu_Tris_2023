@@ -2,6 +2,7 @@ import engine.Coords;
 import engine.Game;
 import engine.Tools;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class UI {
@@ -23,8 +24,8 @@ public class UI {
                     game.move(move);
                 }
             } else {
-                Coords suggested=Game.suggestMove(game.getGrid(), game.getPlayer());
-                int peso= Game.evaluateMove(game.getGrid(), suggested, game.getPlayer());
+                Coords suggested=Game.suggestMove(game.getGrid(), game.getPlayer(), 7);
+                int peso= Game.evaluateMove(game.getGrid(), suggested, game.getPlayer(), 7);
                 System.out.println("SUGGERISCO MOSSA [" + suggested +"] con peso= " + peso);
                 game.move(suggested);
             }
